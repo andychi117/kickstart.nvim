@@ -683,6 +683,18 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
         --
+        pylsp = {
+          settings = {
+            pylsp = {
+              plugins = {
+                pylint = { enabled = true },
+                pycodestyle = { enabled = false },
+                pyflakes = { enabled = false },
+                flake8 = { enabled = false },
+              },
+            },
+          },
+        },
 
         lua_ls = {
           -- cmd = { ... },
@@ -733,6 +745,14 @@ require('lazy').setup({
           end,
         },
       }
+      -- NOTE: fix is found in this issue; https://github.com/nvim-lua/kickstart.nvim/pull/1475/files
+      -- Installed LSPs are configured and enabled automatically with mason-lspconfig
+      -- The loop below is for overriding the default configuration of LSPs with the ones in the servers table
+      for server_name, config in pairs(servers) do
+        vim.lsp.config(server_name, config)
+      end
+      -- NOTE: Some servers may require an old setup until they are updated. For the full list refer here: https://github.com/neovim/nvim-lspconfig/issues/3705
+      --  These servers will have to be manually set up with require("lspconfig").server_name.setup{}
     end,
   },
 
