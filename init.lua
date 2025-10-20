@@ -687,10 +687,16 @@ require('lazy').setup({
           settings = {
             pylsp = {
               plugins = {
-                pylint = { enabled = true },
+                pylint = {
+                  enabled = true,
+                  args = { '--rcfile', vim.fn.getcwd() .. '/.pylintrc' },
+                },
                 pycodestyle = { enabled = false },
                 pyflakes = { enabled = false },
                 flake8 = { enabled = false },
+                autopep8 = { enabled = false },
+                mccabe = { enabled = false },
+                yapf = { enabled = false },
               },
             },
           },
