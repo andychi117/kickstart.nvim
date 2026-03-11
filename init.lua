@@ -166,6 +166,22 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- Enable autoread
+vim.o.autoread = true
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
+  callback = function()
+    if vim.fn.mode() ~= 'c' then
+      vim.cmd 'checktime'
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd('FileChangedShellPost', {
+  callback = function()
+    vim.api.nvim_echo({ { 'File changed on disk. Buffer reloaded.', 'WarningMsg' } }, false, {})
+  end,
+})
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
